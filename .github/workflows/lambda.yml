@@ -1,10 +1,22 @@
 name: lambda pull request
 
 on:
-  pull_request:
+  push:
     branches:
       - main
     paths:
       - .github/workflows/lambda.yml
       - Lambda/*.tf
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  name: Run Terraform
+  runs-on: [ubuntu-latest]
+  steps:
+    - uses: actions/checkout@v4
+    - uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: v1.6.2
     
