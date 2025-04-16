@@ -10,7 +10,7 @@ provider "aws" {
 
 module "lambda" {
   providers = {
-    aws.us-east-1 = aws.us-east-1
+    aws.us-east-1  = aws.us-east-1
     aws.us-east-2 = aws.us-east-2
   }
   source           = "./modules"
@@ -25,10 +25,10 @@ module "lambda" {
 terraform {
   backend "s3" {
     use_lockfile = true
-    encrypt      = true
-    bucket       = "sample-devops-bucket"
-    key          = "StateFiles"
-    region       = "us-east-1"
+    encrypt = true
+    bucket  = "sample-devops-bucket"
+    key     = "StateFiles"
+    region  = "us-east-1"
   }
 }
 
