@@ -33,3 +33,8 @@ variable "policy_name" {
   type        = string
   description = "value of the policy name"
 }
+
+variable "timeout" {
+  type = number
+  description = "lambda execution time in seconds"
+}
