@@ -20,7 +20,7 @@ module "lambda" {
   handler          = "index.handler"
   filename         = "${path.module}/lambda.zip"
   policy_name      = "test_lambda_${terraform.workspace}_policy"
-  timeout          = 300
+  timeout          = 180
 }
 
 terraform {
