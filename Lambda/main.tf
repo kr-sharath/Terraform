@@ -1,17 +1,17 @@
 provider "aws" {
   region = "us-east-1"
-  alias  = "us-east-1"
+  alias  = "use-1"
 }
 
 provider "aws" {
   region = "us-east-2"
-  alias  = "us-east-2"
+  alias  = "use-2"
 }
 
 module "lambda" {
   providers = {
-    aws.us-east-1  = aws.us-east-1
-    aws.us-east-2 = aws.us-east-2
+    aws.use-1  = aws.use-1
+    aws.use-2 = aws.use-2
   }
   source           = "./modules"
   function_name    = "test_lambda_${terraform.workspace}"
@@ -20,6 +20,7 @@ module "lambda" {
   handler          = "index.handler"
   filename         = "${path.module}/lambda.zip"
   policy_name      = "test_lambda_${terraform.workspace}_policy"
+  timeout          = 180
 }
 
 terraform {
