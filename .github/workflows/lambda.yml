@@ -1,10 +1,16 @@
 name: lambda pull request
 
 on:
-  push:
+  pull_request:
+    types: [closed]
     branches:
       - main
     paths:
-      - .github/workflows/lambda.yml
-      - Lambda/*.tf
-    
+      - environments/dev/*.tf
+jobs:
+  deployTerrafom:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    environment:
+      name: DEV
+    steps:

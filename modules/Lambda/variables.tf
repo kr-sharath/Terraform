@@ -5,7 +5,6 @@ variable "runtime" {
 }
 
 variable "region" {
-  default = "us-east-1"
   type    = string
 }
 
@@ -24,11 +23,6 @@ variable "handler" {
   description = "value of the handler"
 }
 
-variable "filename" {
-  type        = string
-  description = "value of the filename"
-}
-
 variable "policy_name" {
   type        = string
   description = "value of the policy name"
@@ -37,4 +31,14 @@ variable "policy_name" {
 variable "timeout" {
   type = number
   description = "lambda execution time in seconds"
+}
+
+variable "s3_bucket" {
+  type = string
+  description = "name of the s3 bucket where code exists for lambda"
+}
+
+variable "s3_key" {
+  type = string
+  description = "name of the s3 key"
 }

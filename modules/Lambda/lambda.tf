@@ -1,16 +1,6 @@
 resource "aws_lambda_function" "test_lambda" {
-  provider      = aws.use-1
-  filename      = var.filename
-  function_name = var.function_name
-  role          = aws_iam_role.lambda_role.arn
-  handler       = var.handler
-  runtime       = var.runtime
-  timeout       = var.timeout
-}
-
-resource "aws_lambda_function" "test_lambda_2" {
-  provider      = aws.use-2
-  filename      = var.filename
+  s3_bucket     = var.s3_bucket
+  s3_key        = var.s3_key
   function_name = var.function_name
   role          = aws_iam_role.lambda_role.arn
   handler       = var.handler
