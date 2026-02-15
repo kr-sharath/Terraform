@@ -1,15 +1,13 @@
 name: lambda pull request
 
 on:
-  pull_request:
-    types: [closed]
+  push:
     branches:
       - main
     paths:
       - environments/dev/*.tf
 jobs:
   deployTerrafom:
-    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     environment:
       name: DEV
@@ -18,7 +16,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout code
-        uses: actions@checkout@v4
+        uses: actions/checkout@v4
       
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -27,4 +25,4 @@ jobs:
           aws-region: ap-south-1
       - name: Init
         working-directory: environments/dev
-        run: Terraform init
+        run: terraform init
