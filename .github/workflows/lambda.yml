@@ -13,4 +13,18 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: DEV
+    permissions:
+      id-token: write      
+      contents: read
     steps:
+      - name: Checkout code
+        uses: actions@checkout@v4
+      
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::444198540026:role/Github_Terraform_int_role
+          aws-region: ap-south-1
+      - name: Init
+        working-directory: environments/dev
+        run: Terraform init
