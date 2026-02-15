@@ -34,5 +34,5 @@ jobs:
       - name: Init
         working-directory: environments/dev
         run: |
-          echo $pwd
+          echo ${pwd}
           terraform init
