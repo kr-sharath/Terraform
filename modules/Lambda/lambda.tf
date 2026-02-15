@@ -5,7 +5,7 @@ resource "aws_lambda_function" "test_lambda" {
   role          = aws_iam_role.lambda_role.arn
   handler       = var.handler
   runtime       = var.runtime
-  timeout       = var.timeout
+  timeout       = var.timeout 
 }
 
 resource "aws_iam_role" "lambda_role" {
