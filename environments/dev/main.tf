@@ -7,7 +7,7 @@ terraform {
   }
 }
 
-providere "aws"{
+provider "aws"{
     region = "ap-south-1"
 }
 
