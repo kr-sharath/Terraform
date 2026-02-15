@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - environments/dev/*.tf
+      - .github/workflows/*.yml
 jobs:
   deployTerrafom:
     runs-on: ubuntu-latest
