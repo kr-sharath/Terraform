@@ -39,13 +39,13 @@ jobs:
           terraform init
 
       - name: Format
-        working-directory: environments/dev/*.tf
+        working-directory: environments/dev
         run: |
           echo "Format terraform"
           terraform fmt -recursive
 
       - name: Validate 
-        working-directory: environments/dev/*.tf
+        working-directory: environments/dev
         run: |
           echo "Validate terraform"
           terraform Validate
