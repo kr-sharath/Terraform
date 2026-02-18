@@ -1,16 +1,16 @@
 variable "api_name" {
-    type = string
+  type = string
 }
 
 variable "stage_name" {
-    type = string
+  type = string
 }
 
 
 variable "lambda_name" {
-    type = string
+  type = string
 }
 
 variable "lambda_arn" {
-    type = string
+  type = string
 }
