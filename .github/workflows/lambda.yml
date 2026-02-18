@@ -13,6 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: DEV
+      ENVIRONMENT_TYPE: ${{ vars.ENVIRONMENT_TYPE }}
     permissions:
       id-token: write      
       contents: read
