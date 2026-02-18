@@ -13,6 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: DEV
+      ENVIRONMENT_TYPE: ${{ vars.ENVIRONMENT_TYPE }}
     permissions:
       id-token: write      
       contents: read
@@ -48,4 +49,11 @@ jobs:
         working-directory: environments/dev
         run: |
           echo "Validate terraform"
-          terraform Validate
+          terraform validate
+
+      - name: Plan 
+        working-directory: environments/dev
+        run: |
+          echo "Terraform plan"
+          terraform plan -var-file "$ENVIRONMENT_TYPE.tfvars" > tfplan
+      
