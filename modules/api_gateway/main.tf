@@ -2,7 +2,7 @@ data "aws_region" "current" {}
 
 resource "aws_api_gateway_rest_api" "this" {
   name = var.api_name
-   endpoint_configuration {
+  endpoint_configuration {
     types = ["REGIONAL"]
   }
 }

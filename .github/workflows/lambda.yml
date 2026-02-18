@@ -37,3 +37,15 @@ jobs:
         run: |
           echo "Present directory: $(pwd)"
           terraform init
+
+      - name: Format
+        working-directory: environments/dev/*.tf
+        run: |
+          echo "Format terraform"
+          terraform fmt -recursive
+
+      - name: Validate 
+        working-directory: environments/dev/*.tf
+        run: |
+          echo "Validate terraform"
+          terraform Validate

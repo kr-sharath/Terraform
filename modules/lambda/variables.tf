@@ -5,7 +5,7 @@ variable "runtime" {
 }
 
 variable "region" {
-  type    = string
+  type = string
 }
 
 variable "function_name" {
@@ -29,16 +29,16 @@ variable "policy_name" {
 }
 
 variable "timeout" {
-  type = number
+  type        = number
   description = "lambda execution time in seconds"
 }
 
 variable "s3_bucket" {
-  type = string
+  type        = string
   description = "name of the s3 bucket where code exists for lambda"
 }
 
 variable "s3_key" {
-  type = string
+  type        = string
   description = "name of the s3 key"
 }
