@@ -58,6 +58,10 @@ jobs:
           echo "Terraform plan"
           terraform plan -var-file "$ENVIRONMENT_TYPE.tfvars" -out=tfplan
       
-      - name: Show plan
-        run: | 
-          terraform show tfplan
+      - name: Apply 
+        working-directory: environments/dev
+        env: 
+          ENVIRONMENT_TYPE: ${{ vars.ENVIRONMENT_TYPE }}
+        run: |
+          echo "Terraform apply"
+          terraform apply -var-file "$ENVIRONMENT_TYPE.tfvars" -auto-approve
