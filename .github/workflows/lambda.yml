@@ -11,32 +11,31 @@ on:
 jobs:
   deployTerrafom:
     runs-on: ubuntu-latest
+    defaults: 
+      run:
+        shell: bash
+        working-directory: environments/dev
     environment:
       name: DEV
     permissions:
       id-token: write      
       contents: read
     steps:
-
       - name: Git actor
         run: |
           echo "This workflow initiated by ${{ github.actor }}"
-
       - name: Checkout code
-        uses: actions/checkout@v4
-      
+        uses: actions/checkout@v4      
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::444198540026:role/Github_Terraform_int_role
           aws-region: us-east-1
-
       # Setup Terraform
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: 1.6.0
-      
+          terraform_version: 1.6.0      
       - name: tfsec
         uses: aquasecurity/tfsec-action@v1.0.0
         with: 
@@ -44,33 +43,24 @@ jobs:
           concise-output: true
       # Initialise terraform
       - name: Init
-        working-directory: environments/dev
         run: |
           echo "Present directory: $(pwd)"
           terraform init
-
       - name: Format
-        working-directory: environments/dev
         run: |
           echo "Format terraform"
           terraform fmt -recursive
-
       - name: Validate 
-        working-directory: environments/dev
         run: |
           echo "Validate terraform"
           terraform validate
-
       - name: Plan 
-        working-directory: environments/dev
         env: 
           ENVIRONMENT_TYPE: ${{ vars.ENVIRONMENT_TYPE }}
         run: |
           echo "Terraform plan"
-          terraform plan -var-file "$ENVIRONMENT_TYPE.tfvars" -out=tfplan
-      
+          terraform plan -var-file "$ENVIRONMENT_TYPE.tfvars" -out=tfplan      
       - name: Apply 
-        working-directory: environments/dev
         env: 
           ENVIRONMENT_TYPE: ${{ vars.ENVIRONMENT_TYPE }}
         run: |
