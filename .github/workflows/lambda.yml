@@ -21,11 +21,6 @@ jobs:
       id-token: write      
       contents: read
     steps:
-
-      - name: Git actor
-        run: |
-          echo "This workflow initiated by ${{ github.actor }}"
-
       - name: Checkout code
         uses: actions/checkout@v4      
       - name: Configure AWS credentials
