@@ -21,9 +21,11 @@ jobs:
       id-token: write      
       contents: read
     steps:
+
       - name: Git actor
         run: |
           echo "This workflow initiated by ${{ github.actor }}"
+
       - name: Checkout code
         uses: actions/checkout@v4      
       - name: Configure AWS credentials
@@ -35,7 +37,8 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: 1.6.0      
+          terraform_version: 1.6.0
+      
       - name: tfsec
         uses: aquasecurity/tfsec-action@v1.0.0
         with: 
