@@ -4,4 +4,3 @@ terraform.tfstate
 terraform.tfstate.*
 tfplan
 .terraform.lock.hcl
-*.zip
