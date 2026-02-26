@@ -14,7 +14,7 @@ jobs:
     defaults: 
       run:
         shell: bash
-        working-directory: environments/dev
+        working-directory: environments/${{ vars.ENVIRONMENT_TYPE }}
     environment:
       name: DEV
     permissions:
@@ -34,7 +34,7 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.6.0
-      
+      # Scan config for security 
       - name: tfsec
         uses: aquasecurity/tfsec-action@v1.0.0
         with: 
@@ -45,20 +45,31 @@ jobs:
         run: |
           echo "Present directory: $(pwd)"
           terraform init
+      # Format the tf files 
       - name: Format
         run: |
           echo "Format terraform"
           terraform fmt -recursive
+      # Validate the syntax of tf files 
       - name: Validate 
         run: |
           echo "Validate terraform"
           terraform validate
+      # Plan gives preview of resources to be created
       - name: Plan 
         env: 
           ENVIRONMENT_TYPE: ${{ vars.ENVIRONMENT_TYPE }}
         run: |
           echo "Terraform plan"
-          terraform plan -var-file "$ENVIRONMENT_TYPE.tfvars" -out=tfplan      
+          terraform plan -var-file "$ENVIRONMENT_TYPE.tfvars" -out=tfplan 
+      # Shows the output of the plan or state
+      - name: Show plan 
+        env: 
+          ENVIRONMENT_TYPE: ${{ vars.ENVIRONMENT_TYPE }}
+        run: |
+          echo "Terraform show"
+          terraform show   
+      # Apply creates the resources   
       - name: Apply 
         env: 
           ENVIRONMENT_TYPE: ${{ vars.ENVIRONMENT_TYPE }}
