@@ -27,7 +27,8 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::444198540026:role/Github_Terraform_int_role
-          aws-region: us-east-1
+          role-session-name: ${{ github.run_id }}
+          aws-region: ${{ vars.REGION }}
       # Setup Terraform
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
