@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - environments/dev/*.tf
+      - environments/${{ vars.ENVIRONMENT_TYPE }}/*.tf
       - .github/workflows/*.yml
       - modules/**
 jobs:
