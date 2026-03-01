@@ -21,12 +21,14 @@ jobs:
       id-token: write      
       contents: read
     steps:
+      # Checkout repository to runners workspace
       - name: Checkout code
         uses: actions/checkout@v4      
+      # Action for Github 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::444198540026:role/Github_Terraform_int_role
+          role-to-assume: ${{ vars.ASSUME_ROLE }}
           role-session-name: ${{ github.run_id }}
           aws-region: ${{ vars.REGION }}
       # Setup Terraform
@@ -39,7 +41,6 @@ jobs:
         uses: aquasecurity/tfsec-action@v1.0.0
         with: 
           soft_fail: true
-          concise-output: true
       # Initialise terraform
       - name: Init
         run: |
