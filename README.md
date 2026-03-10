@@ -77,3 +77,79 @@ Additional [options](https://github.com/aws-actions/configure-aws-credentials?ta
 ```
 The action checks your Terraform code for potential security issues and misconfigurations across major cloud providers (AWS, Azure, GCP) using hundreds of built-in rules. It can be configured to fail a workflow if insecure code is detected.\
 In this workflow soft_fail set to true in order to not to break the build.
+
+5. **Init** : The `terraform init` initializes the Terraform working directory and downloads required provider plugins and modules.\
+During init, the root configuration directory is consulted for backend configuration and the chosen backend is initialized using the given configuration settings.
+
+6. **Format** : Ensures all Terraform configuration files follow the standard formatting style.\
+    ```terraform fmt```
+    * Recursively formats .tf files in all directories.
+    * Helps maintain consistent code style.
+
+7. **Validate** : Checks whether the Terraform configuration files are syntactically valid.
+    ```
+    - name: Validate 
+        run: |
+          echo "Validate terraform"
+          terraform validate
+    ```
+    This step verifies that:
+    * Configuration files are syntactically correct
+    * Required arguments are present
+
+8. **Plan** : Generates an execution plan showing what infrastructure changes Terraform will make.
+```
+- name: Plan 
+        env: 
+          ENVIRONMENT_TYPE: ${{ vars.ENVIRONMENT_TYPE }}
+        run: |
+          echo "Terraform plan"
+          terraform plan -var-file "$ENVIRONMENT_TYPE.tfvars" -out=tfplan 
+```
+    
+   Key Points:
+   * Uses environment-specific variables via ENVIRONMENT_TYPE.
+   * Creates a plan output file `tfplan` which will be used for applying changes.
+   * Provides a preview of resources that will be created, updated, or destroyed.
+
+
+9. **Show Terraform Plan** : Displays the contents of the generated Terraform plan.
+
+```
+ - name: Show plan 
+        env: 
+          ENVIRONMENT_TYPE: ${{ vars.ENVIRONMENT_TYPE }}
+        run: |
+          echo "Terraform show"
+          terraform show 
+```
+This allows users to review the planned infrastructure changes before applying them.
+
+10. **Apply** : Applies the changes defined in the execution plan.
+```
+- name: Apply 
+        env: 
+          ENVIRONMENT_TYPE: ${{ vars.ENVIRONMENT_TYPE }}
+        run: |
+          echo "Terraform apply"
+          terraform apply -auto-approve tfplan
+```
+
+Uses the previously generated tfplan.\
+`-auto-approve` skips manual approval during CI execution.\
+Creates or updates infrastructure resources.
+
+**Environment Variable** 
+
+ENVIRONMENT_TYPE : Defines the environment configuration (e.g., dev, stage, prod) and selects the corresponding .tfvars file.
+
+Example: 
+
+```
+    dev.tfvars
+    stage.tfvars
+    prod.tfvars
+```
+
+ASSUME_ROLE : Specifies the AWS IAM role that the workflow will assume during execution. Grants the workflow permissions to create or manage AWS resources.\
+REGION : Specifies the AWS region where resources will be created.
